@@ -11,7 +11,9 @@ from interface.models import Message, User, Mathmodel
 from interface.utils import verify_token, generate_token
 from interface.emails import send_confirm_email, send_reset_password_email, send_change_email_email
 
-
+from flask_login import login_user, login_required
+from flask_login import current_user
+from flask_login import logout_user
 
 @app.route('/api/users/<int:id>')
 def get_user(id):
@@ -51,6 +53,8 @@ def register():
 
 @app.route('/users/login', methods=['GET','POST'])
 def login():
+    if current_user.is_authenticated:
+        return jsonify({"login": True})
     if request.method == 'GET':
         return render_template('login.html')
     else:
@@ -60,6 +64,7 @@ def login():
 
         user = User.query.filter_by(email=email).first()
         if user is not None and user.validate_password(password):
+            login_user(user)
             flash('Login success.', 'info')
             return jsonify({"login": True})
         else:
@@ -68,3 +73,8 @@ def login():
 
 
 @app.route('/users/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('Logout success.', 'info')
+    return jsonify({"logout": True})

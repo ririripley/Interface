@@ -7,6 +7,7 @@ from flask_login import LoginManager, AnonymousUserMixin
 
 
 
+
 '''
 从构造文件中导入变量时不需要注明构造文件的路径，只需要从包
 名称导入，比如导入在构造文件中定义的程序实例app可以使用
@@ -27,7 +28,8 @@ login_manager.init_app(app)
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.get(user_id)
+    from models import User
+    User.query.get(int(user_id))
 
 login_manager.login_view = 'auth.login'
 # login_manager.login_message = 'Your custom message'
