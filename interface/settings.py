@@ -37,4 +37,9 @@ MAIL_USERNAME = os.getenv('MAIL_USERNAME')
 MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
 MAIL_DEFAULT_SENDER = ('Group Project', MAIL_USERNAME)
 
+# Custom config
+#app.config['UPLOAD_PATH'] = os.path.join(app.root_path, 'uploads')
+#app.config['ALLOWED_EXTENSIONS'] = ['png', 'jpg', 'jpeg', 'gif']
+UPLOAD_PATH = os.path.join(app.root_path, 'uploads')
+ALLOWED_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif']
 MAIL_SUBJECT_PREFIX = '[JMT]'

@@ -7,10 +7,11 @@ from datetime import datetime
 
 from interface import db
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
 
 
 
-class Message(db.Model):
+class Message(db.Model, UserMixin):
     __tablename__ = "message"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(20))
@@ -18,7 +19,7 @@ class Message(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__= "user"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, index=True)
@@ -35,9 +36,11 @@ class User(db.Model):
         return check_password_hash(self.password_hash, password)
 
 
-class Mathmodel(db.model):
+class Mathmodel(db.Model, UserMixin):
     __tablename__ = "mathmodel"
     id = db.Column(db.Integer, primary_key=True)
-    title = name = db.Column(db.String(30))
+    title = db.Column(db.String(30))
+    body = db.Column(db.String(100))
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
     user_id =  db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User', back_populates='mathmodel')

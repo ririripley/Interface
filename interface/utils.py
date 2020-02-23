@@ -1,6 +1,6 @@
 from interface.models import Message, User, Mathmodel
 from flask import request,jsonify,current_app
-
+from interface import app
 def generate_token(api_user):
     '''
         生成token
@@ -35,5 +35,12 @@ def verify_token(token):
     user = User.query.get(data["id"])
     return user
 
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
+
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+                               filename)
 
 
