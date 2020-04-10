@@ -1,0 +1,160 @@
+{%extends "frame.html"%}
+{%block html%}
+
+<link rel="stylesheet" href="res/plugins/account/account.css" media="all">
+<script src="res/plugins/jquery/jquery.min.js"></script>
+<script src="res/js/account.js"></script>
+
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>User Information</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- column -->
+            <div class="col-md-12" id="account">
+                <!-- Horizontal Form -->
+                <div class="card card-info">
+                    <div class="card-header">
+                        <h3 class="card-title">"Check and modify your information"</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="width: 25%">Attribute</th>
+                                    <th>Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>First Name: </td>
+                                    <td>{{data.firstname}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Last Name: </td>
+                                    <td>{{data.lastname}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Email: </td>
+                                    <td>{{data.email}}</td>
+                                </tr>
+                                 <tr>
+                                    <td>School: </td>
+                                    <td>{{data.school}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer btn-group">
+                        <button class="btn btn-primary btn-large change" href="javascript:;">Change</button>
+                    </div>
+                    <!-- /.card-footer -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!--/.col -->
+        </div>
+        <!-- /.row -->
+
+   <div class="theme-popover">
+     <div class="theme-poptit">
+          <a href="javascript:;" title="close" class="close">×</a>
+          <h3>Modify your information</h3>
+     </div>
+     <div class="theme-popbod dform">
+           <form class="theme-signin" name="loginform" action="" method="post">
+                <ol>
+                     <li><strong>First name：</strong><input class="ipt" id="firstname" name="firstname" v-model={{data.firstname}} /></li>
+                     <li><strong>Last name：</strong><input class="ipt" id="lastname" name="lastname"  v-model={{data.lastname}} /></li>
+                     <li><strong>Email：</strong><input class="ipt" id="email" name="email" size="20" v-model={{data.email}} /></li>
+                     <li><strong>School：</strong><input class="ipt" id="school" name="school" size="20" v-model={{data.school}} /></li>
+                     <li><a class="btn btn-save" id="submit">Save</a>       
+                      <button class="btn btn-close" >Cancel</button></li>
+                </ol>
+           </form>
+     </div>
+</div>
+<div class="theme-popover-mask"></div>
+    </div><!-- /.container-fluid -->
+
+
+</section>
+<!-- /.content -->
+
+
+{%endblock%}
+{%block script%}
+<script>
+$(
+function ()
+{
+    // Set title
+    document.title = "account";
+    // Get task through http api
+    ajax(
+        "api/account", // to JXY : Vue.data () line 124
+        null,
+        null,
+        "GET",
+        function(res)
+        {
+            account.$data = res.account;
+        }
+    );
+}
+);
+
+// Vue object of the task
+var account = new Vue(
+    {//此处 跟前面一样 将firstname，lastname 去掉替换为username
+        // HZJ: jsonify({"username":current_user.username, "email":current_user.email, "school":current_user.school})
+        el: "#account",
+        data: {
+                "firstname": "",
+                "lastname": "",
+                "email": "",
+                "school": "",
+        }
+
+    }
+);
+
+
+
+/**
+ * Callback function when a task is successfully cancelled
+ /* function cancel_success()
+{
+    show_message(true, "alert-success", "Cancelled!", "Task successfully cancelled!");
+    // Get the task again
+    ajax(
+        "api/task",
+        {"id": task.$data.data.id},
+        null,
+        "GET",
+        function(res)
+        {
+            task.$data.data = res.task;
+            task.$data.data.status = task_status[task.$data.data.status];
+        }
+    );
+}
+*/
+</script>
+{%endblock%}

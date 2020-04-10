@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>test</title>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+</script>
+<script>
+
+jQuery.support.cores=true;
+
+$(document).ready(function(){
+    $("button").click(function(){
+        var list={
+            login_email:$('#login_email').val(),
+            password:$('#password').val()
+        }
+
+      $.ajax({
+        type: "post",
+        url: "http://localhost:5000/api/login",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        data:JSON.stringify(list),
+
+        success: function(data){
+             alert(data);          
+          
+             }
+        });
+      console.log({list});
+      return false;
+  
+    });
+});
+</script>
+
+</head>
+<body>
+<form action="/" method="post">
+          
+    <label>
+        Email Address<span class="req">*</span>
+    </label>
+    <input name="login_email" id="login_email" type="email"required autocomplete="off"/>
+
+    <label>
+    Password<span class="req">*</span>
+    </label>
+    <input name="password" id="password" type="password"required autocomplete="off"/>
+ 
+          
+     <button type="button">log_in</button>
+        
+</form>
+
+</body>
+</html>
