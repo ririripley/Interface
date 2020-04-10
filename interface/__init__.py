@@ -4,6 +4,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 from flask_login import LoginManager, AnonymousUserMixin
+from flask_cors import *
 
 
 
@@ -14,7 +15,8 @@ from flask_login import LoginManager, AnonymousUserMixin
 from interface import app
 '''
 
-app = Flask('interface')
+app = Flask('interface', template_folder="../../webpage")
+#static_folder='../../webpage/',static_url_path=, static_url_path="../webpage"""
 app.config.from_pyfile('settings.py') #在创建程序实例后，使用config对象的from_pyfile（）方法即可加
 #载配置，传入配置模块的文件名作为参数
 app.jinja_env.trim_blocks = True
@@ -24,6 +26,7 @@ login_manager = LoginManager() #Flask-Login uses sessions for authentication.
 db = SQLAlchemy(app)
 mail = Mail(app)
 login_manager.init_app(app)
+CORS(app, supports_credentials=True)
 
 
 @login_manager.user_loader
